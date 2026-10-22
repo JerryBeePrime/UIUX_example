@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub Pages 漫畫教室</title>
+<style>
+:root {
+  --ink: #20202a;
+  --yellow: #ffe45c;
+  --pink: #ff8da1;
+  --blue: #8ce4ff;
+  --paper: #fffdf5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Noto Sans TC", sans-serif;
+  background-color: #f4eddf;
+  background-image: radial-gradient(#20202a22 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+button {
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  padding: 11px 18px;
+  color: var(--ink);
+  background: white;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform .12s, box-shadow .12s;
+}
+button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+button:active { transform: translate(4px, 4px); box-shadow: none; }
+button:disabled { opacity: .35; cursor: not-allowed; }
+header {
+  background: var(--yellow);
+  border-bottom: 4px solid var(--ink);
+  padding: 18px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.logo { font-size: 1.15rem; font-weight: 1000; }
+.logo span { background: var(--ink); color: white; padding: 4px 7px; }
+main { max-width: 850px; margin: 35px auto; padding: 0 18px 40px; }
+.panel {
+  background: var(--paper);
+  border: 4px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 9px 9px 0 var(--ink);
+  padding: clamp(20px, 5vw, 42px);
+}
+.tag {
+  display: inline-block;
+  background: var(--pink);
+  border: 3px solid var(--ink);
+  padding: 5px 10px;
+  font-weight: 1000;
+  transform: rotate(-2deg);
+}
+h1 { font-size: clamp(2.1rem, 7vw, 4.3rem); line-height: 1.1; margin: 20px 0; }
+h1 em { color: #e34e69; font-style: normal; }
+h2 { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+p { line-height: 1.85; }
+.hero-art {
+  margin: 25px 0;
+  padding: 22px;
+  border: 3px solid var(--ink);
+  background: var(--blue);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.person { font-size: 76px; filter: drop-shadow(3px 3px 0 white); }
+.bubble {
+  position: relative;
+  background: white;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  padding: 15px;
+  max-width: 360px;
+  font-weight: bold;
+}
+.progress-wrap {
+  background: white;
+  border: 3px solid var(--ink);
+  height: 23px;
+  border-radius: 30px;
+  overflow: hidden;
+  margin: 15px 0 7px;
+}
+#progress {
+  height: 100%;
+  width: 0;
+  background: var(--pink);
+  transition: width .3s;
+}
+.small { font-size: .9rem; color: #555; }
+.step-number { font-weight: 1000; color: #e34e69; }
+.code {
+  padding: 15px;
+  background: #252535;
+  color: #d7ffb8;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+  font-family: monospace;
+  line-height: 1.8;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+.primary { background: var(--yellow); }
+.choice {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 12px 0;
+  background: white;
+}
+.choice.correct { background: #b8f5c6; }
+.choice.wrong { background: #ffc4c4; }
+#feedback { font-weight: bold; min-height: 30px; }
+footer { text-align: center; padding: 25px; font-size: .85rem; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎨 COMIC <span>DEV</span> LAB</div>
+  <div>一場 GitHub Pages 冒險！</div>
+</header>
+
+<main>
+  <!-- 首頁 -->
+  <section class="panel" id="intro">
+    <span class="tag">新手任務 #001</span>
+    <h1>讓你的網站<br>出現在 <em>網路上！</em></h1>
+    <p>不用租伺服器，也不用付主機費！跟著漫畫角色，學會使用 GitHub Pages 發布自己的網頁。</p>
+
+    <div class="hero-art">
+      <div class="person" aria-hidden="true">🧑‍💻</div>
+      <div class="bubble">
+        「只要準備好 HTML，再點幾個按鈕，就能讓全世界看見你的作品！」
+      </div>
+    </div>
+
+    <p><strong>你的任務：</strong>完成四個步驟，解鎖網站發布技能。</p>
+    <button class="primary" id="start">🚀 開始冒險！</button>
+  </section>
+
+  <!-- 教學區 -->
+  <section class="panel" id="lesson" hidden>
+    <span class="tag" id="stepTag">MISSION 01</span>
+    <div class="progress-wrap">
+      <div id="progress"></div>
+    </div>
+    <p class="small" id="progressText">完成進度：0%</p>
+
+    <div class="hero-art">
+      <div class="person" aria-hidden="true" id="avatar">🧑‍💻</div>
+      <div class="bubble" id="speech">準備好開始了嗎？</div>
+    </div>
+
+    <p class="step-number" id="stepCount">STEP 1 / 4</p>
+    <h2 id="lessonTitle"></h2>
+    <div id="lessonContent"></div>
+
+    <div class="actions">
+      <button id="prev">⬅ 上一步</button>
+      <button class="primary" id="next">下一步 ➜</button>
+    </div>
+  </section>
+
+  <!-- 測驗區 -->
+  <section class="panel" id="quiz" hidden>
+    <span class="tag">FINAL BOSS</span>
+    <h2>💥 最終挑戰！</h2>
+    <p>GitHub Pages 預設會尋找哪個檔案作為網站首頁？</p>
+    <button class="choice" data-answer="a">A. about.txt</button>
+    <button class="choice" data-answer="b">B. index.html</button>
+    <button class="choice" data-answer="c">C. picture.png</button>
+    <p id="feedback" aria-live="polite"></p>
+    <div id="finish" hidden>
+      <div class="hero-art">
+        <div class="person" aria-hidden="true">🏆</div>
+        <div class="bubble">恭喜！你已經掌握 GitHub Pages 的基本發布流程！</div>
+      </div>
+      <button class="primary" id="restart">🔄 再玩一次</button>
+    </div>
+  </section>
+</main>
+
+<footer>MADE WITH ♥ AND HTML · CSS · JAVASCRIPT</footer>
+
+<script>
+const lessons = [
+  {
+    title: "建立你的 Repository",
+    avatar: "🗂️",
+    speech: "先準備一個地方，放置你的網站檔案！",
+    content: `
+      <p>Repository（儲存庫）就是存放專案檔案的地方。</p>
+      <ol>
+        <li>前往 <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 並登入。</li>
+        <li>點選右上角的 <b>＋ → New repository</b>。</li>
+        <li>輸入名稱，例如 <b>my-comic-site</b>。</li>
+        <li>選擇 Public，然後建立儲存庫。</li>
+      </ol>
+      <p>💡 Public Repository 最適合這個公開網站教學範例。</p>`
+  },
+  {
+    title: "製作 index.html",
+    avatar: "💻",
+    speech: "這就是網站的主角！HTML 負責網頁的內容與結構。",
+    content: `
+      <p>建立一個名為 <b>index.html</b> 的檔案，先放入以下內容：</p>
+      <div class="code">&lt;!DOCTYPE html&gt;<br>
+      &lt;html lang="zh-Hant"&gt;<br>
+      &lt;meta charset="UTF-8"&gt;<br>
+      &lt;title&gt;我的第一個網站&lt;/title&gt;<br>
+      &lt;h1&gt;Hello GitHub Pages!&lt;/h1&gt;<br>
+      &lt;/html&gt;</div>
+      <p>你也可以把完整的漫畫教室程式碼放進這個檔案。</p>`
+  },
+  {
+    title: "上傳網站檔案",
+    avatar: "📤",
+    speech: "把檔案放進 Repository，網站就有材料可以發布囉！",
+    content: `
+      <ol>
+        <li>打開剛剛建立的 Repository。</li>
+        <li>選擇 <b>Add file → Create new file</b>。</li>
+        <li>檔名輸入 <b>index.html</b>。</li>
+        <li>貼上 HTML 程式碼，再點選 <b>Commit changes</b>。</li>
+      </ol>
+      <p>也可以使用 Upload files 上傳現有檔案。</p>
+      <p>⚠️ 檔名大小寫要一致，建議使用小寫的 index.html。</p>`
+  },
+  {
+    title: "啟用 GitHub Pages",
+    avatar: "🚀",
+    speech: "最後一步！把你的 Repository 變成公開網站。",
+    content: `
+      <ol>
+        <li>進入 Repository 的 <b>Settings</b>。</li>
+        <li>在側邊選單找到 <b>Pages</b>。</li>
+        <li>在 Build and deployment 選擇 <b>Deploy from a branch</b>。</li>
+        <li>Branch 選擇 <b>main</b>，資料夾選 <b>/(root)</b>。</li>
+        <li>按下 <b>Save</b>，等待網站部署完成。</li>
+      </ol>
+      <div class="code">https://你的帳號.github.io/my-comic-site/</div>
+      <p>🎉 一般專案網站的網址會包含 Repository 名稱。部署可能需要幾分鐘。</p>
+      <p>官方文件：<a href="https://docs.github.com/pages" target="_blank" rel="noopener">GitHub Pages Docs ↗</a></p>`
+  }
+];
+
+let current = 0;
+const $ = id => document.getElementById(id);
+
+function showLesson() {
+  const item = lessons[current];
+  $("stepTag").textContent = `MISSION 0${current + 1}`;
+  $("stepCount").textContent = `STEP ${current + 1} / ${lessons.length}`;
+  $("lessonTitle").textContent = item.title;
+  $("avatar").textContent = item.avatar;
+  $("speech").textContent = item.speech;
+  $("lessonContent").innerHTML = item.content;
+  $("progress").style.width = `${((current + 1) / lessons.length) * 100}%`;
+  $("progressText").textContent = `教學進度：${current + 1} / ${lessons.length}`;
+  $("prev").disabled = current === 0;
+  $("next").textContent = current === lessons.length - 1
+    ? "挑戰最終測驗！ 💥"
+    : "下一步 ➜";
+}
+
+$("start").addEventListener("click", () => {
+  $("intro").hidden = true;
+  $("lesson").hidden = false;
+  current = 0;
+  showLesson();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+$("prev").addEventListener("click", () => {
+  if (current > 0) {
+    current--;
+    showLesson();
+  }
+});
+
+$("next").addEventListener("click", () => {
+  if (current < lessons.length - 1) {
+    current++;
+    showLesson();
+  } else {
+    $("lesson").hidden = true;
+    $("quiz").hidden = false;
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+document.querySelectorAll(".choice").forEach(button => {
+  button.addEventListener("click", () => {
+    const correct = button.dataset.answer === "b";
+    $("feedback").textContent = correct
+      ? "✅ 答對了！index.html 通常是網站的預設首頁。"
+      : "💥 再想想！網站首頁通常使用 index.html。";
+    document.querySelectorAll(".choice").forEach(choice => {
+      choice.classList.remove("correct", "wrong");
+      choice.disabled = true;
+    });
+    button.classList.add(correct ? "correct" : "wrong");
+    if (correct) $("finish").hidden = false;
+    else {
+      const retry = document.createElement("button");
+      retry.textContent = "再試一次";
+      retry.id = "retry";
+      retry.addEventListener("click", resetQuiz);
+      $("feedback").append(" ");
+      $("feedback").append(retry);
+    }
+  });
+});
+
+function resetQuiz() {
+  document.querySelectorAll(".choice").forEach(button => {
+    button.disabled = false;
+    button.classList.remove("correct", "wrong");
+  });
+  $("feedback").textContent = "";
+  $("finish").hidden = true;
+}
+
+$("restart").addEventListener("click", () => {
+  resetQuiz();
+  $("quiz").hidden = true;
+  $("intro").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+</body>
+</html>
