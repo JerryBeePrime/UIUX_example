@@ -1,0 +1,58 @@
+/* themes.css：整站主題色
+   main.js 會在 <html> 上設定 data-theme="yellow | pink | blue | black"，
+   這裡覆寫 style.css 的 CSS 變數，整個網站就會跟著換色。 */
+:root {
+  --theme-yellow: #ffe45c;
+  --theme-pink: #ff8da1;
+  --theme-blue: #8ce4ff;
+  --theme-black: #b8b8c8;
+}
+
+body, header, .panel, .hero-art, .tag, .personalizer, .bubble {
+  transition: background-color .3s, color .3s;
+}
+
+/* 黃色：預設主題，沿用 style.css 的變數 */
+
+/* 粉紅色 */
+html[data-theme="pink"] {
+  --yellow: #ff8da1;
+  --pink: #ffc2cd;
+  --blue: #ffe1e7;
+  --paper: #fff7f9;
+}
+html[data-theme="pink"] body { background-color: #fbe3e9; }
+html[data-theme="pink"] h1 em,
+html[data-theme="pink"] .step-number { color: #c2304f; }
+
+/* 藍色 */
+html[data-theme="blue"] {
+  --yellow: #8ce4ff;
+  --pink: #a9b9ff;
+  --blue: #d6f3ff;
+  --paper: #f6fcff;
+}
+html[data-theme="blue"] body { background-color: #e1f2f9; }
+html[data-theme="blue"] h1 em,
+html[data-theme="blue"] .step-number { color: #2a62c9; }
+
+/* 黑色（深色模式） */
+html[data-theme="black"] {
+  --yellow: #b8b8c8;
+  --pink: #8a8aa6;
+  --blue: #4a4a5e;
+  --paper: #34343f;
+}
+html[data-theme="black"] body { background-color: #1b1b22; color: #f1f1f7; }
+html[data-theme="black"] footer { color: #d8d8e4; }
+html[data-theme="black"] .panel { color: #f1f1f7; }
+html[data-theme="black"] .personalizer { background: #2b2b36; }
+html[data-theme="black"] .small { color: #c4c4d2; }
+html[data-theme="black"] .step-number,
+html[data-theme="black"] h1 em { color: #ffa8ba; }
+html[data-theme="black"] .bubble,
+html[data-theme="black"] .preview-card,
+html[data-theme="black"] .tag,
+html[data-theme="black"] .progress-wrap { color: var(--ink); }
+html[data-theme="black"] .progress-wrap { background: #fff; }
+html[data-theme="black"] .panel a { color: #8ce4ff; }

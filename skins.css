@@ -1,0 +1,181 @@
+/* skins.css：依「個性」切換整個網站的風格（字體、邊框、圓角、陰影、背景、動畫）
+   main.js 會在 <html> 設定 data-style="funny | cool | cute | chaos"。
+   配色則由 themes.css 的 data-theme 負責，兩者可自由組合。 */
+
+/* ---------- 搞笑型：原本的粗框漫畫風 ---------- */
+html[data-style="funny"] {
+  --font: "Trebuchet MS", "Noto Sans TC", sans-serif;
+  --ls: normal; --upper: none;
+  --bw: 3px; --bw-lg: 4px;
+  --r: 10px; --r-btn: 10px; --r-lg: 18px; --r-tag: 0px; --r-bubble: 18px;
+  --sh: 4px 4px 0 var(--ink);
+  --sh-md: 5px 5px 0 var(--ink);
+  --sh-lg: 9px 9px 0 var(--ink);
+  --sh-hover: 2px 2px 0 var(--ink);
+  --hover-tf: translate(2px, 2px);
+  --active-tf: translate(4px, 4px);
+  --tag-rot: -2deg; --panel-rot: 0deg; --bstyle: solid;
+}
+
+/* ---------- 冷酷型：終端機／極簡硬派 ---------- */
+html[data-style="cool"] {
+  --font: "JetBrains Mono", "Noto Sans TC", "Courier New", monospace;
+  --ls: .02em; --upper: uppercase;
+  --bw: 1px; --bw-lg: 2px;
+  --r: 0px; --r-btn: 0px; --r-lg: 0px; --r-tag: 0px; --r-bubble: 0px;
+  --sh: none;
+  --sh-md: 0 0 0 1px rgba(128,128,128,.25);
+  --sh-lg: 0 0 0 6px rgba(128,128,128,.12), 0 18px 48px rgba(0,0,0,.28);
+  --sh-hover: none;
+  --hover-tf: none;
+  --active-tf: translateY(1px);
+  --tag-rot: 0deg; --panel-rot: 0deg; --bstyle: solid;
+}
+
+/* ---------- 可愛型：圓滾滾、柔軟、會浮動 ---------- */
+html[data-style="cute"] {
+  --font: "Huninn", "Noto Sans TC", sans-serif;
+  --ls: .03em; --upper: none;
+  --bw: 2px; --bw-lg: 3px;
+  --r: 18px; --r-btn: 999px; --r-lg: 34px; --r-tag: 999px; --r-bubble: 26px;
+  --sh: 0 4px 0 rgba(32,32,42,.35);
+  --sh-md: 0 8px 22px rgba(32,32,42,.14);
+  --sh-lg: 0 12px 0 rgba(32,32,42,.10), 0 22px 44px rgba(32,32,42,.16);
+  --sh-hover: 0 2px 0 rgba(32,32,42,.35);
+  --hover-tf: translateY(2px);
+  --active-tf: translateY(4px);
+  --tag-rot: 2deg; --panel-rot: 0deg; --bstyle: solid;
+}
+
+/* ---------- 混亂型：歪斜、手繪、雙層陰影、一直在晃 ---------- */
+html[data-style="chaos"] {
+  --font: "Chocolate Classical Sans", "Comic Sans MS", "Noto Sans TC", cursive;
+  --ls: .01em; --upper: none;
+  --bw: 3px; --bw-lg: 4px;
+  --r: 6px;
+  --r-btn: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --r-lg: 42px 12px 36px 14px / 14px 36px 12px 42px;
+  --r-tag: 4px; --r-bubble: 30px 8px 28px 10px / 10px 28px 8px 30px;
+  --sh: 4px 4px 0 var(--ink), 8px 8px 0 var(--pink);
+  --sh-md: 5px 5px 0 var(--ink), 10px 10px 0 var(--pink);
+  --sh-lg: 9px 9px 0 var(--ink), 18px 18px 0 var(--pink);
+  --sh-hover: 2px 2px 0 var(--ink);
+  --hover-tf: rotate(-3deg) scale(1.06);
+  --active-tf: rotate(3deg) scale(.95);
+  --tag-rot: 5deg; --panel-rot: -.4deg; --bstyle: dashed;
+}
+
+/* ================= 共用規則：全部讀取上面的變數 ================= */
+html[data-style] body { font-family: var(--font); letter-spacing: var(--ls); }
+
+html[data-style] button {
+  border-width: var(--bw);
+  border-radius: var(--r-btn);
+  box-shadow: var(--sh);
+  text-transform: var(--upper);
+}
+html[data-style] button:hover:not(:disabled) { transform: var(--hover-tf); box-shadow: var(--sh-hover); }
+html[data-style] button:active:not(:disabled) { transform: var(--active-tf); box-shadow: none; }
+
+html[data-style] header { border-bottom-width: var(--bw-lg); }
+html[data-style] .logo span { border-radius: var(--r-tag); }
+
+html[data-style] .panel {
+  border-width: var(--bw-lg);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
+  rotate: var(--panel-rot);
+}
+html[data-style] .tag {
+  border-width: var(--bw);
+  border-radius: var(--r-tag);
+  transform: rotate(var(--tag-rot));
+  text-transform: var(--upper);
+}
+html[data-style] .hero-art,
+html[data-style] .preview-card,
+html[data-style] .personalizer { border-width: var(--bw); border-style: var(--bstyle); }
+html[data-style] .hero-art { border-radius: var(--r); }
+html[data-style] .personalizer { border-radius: var(--r-lg); box-shadow: var(--sh-md); }
+html[data-style] .preview-card { border-radius: var(--r); }
+html[data-style] .bubble { border-width: var(--bw); border-radius: var(--r-bubble); }
+html[data-style] .code { border-width: var(--bw); border-radius: var(--r); }
+html[data-style] .progress-wrap { border-width: var(--bw); border-radius: var(--r-btn); }
+html[data-style] .form-field input,
+html[data-style] .form-field select { border-width: var(--bw); border-radius: var(--r); }
+
+/* ================= 各風格的專屬裝飾 ================= */
+
+/* 冷酷型 */
+html[data-style="cool"] body {
+  background-image:
+    linear-gradient(rgba(128,128,128,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,.14) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+html[data-style="cool"] h1 { letter-spacing: -.02em; text-transform: uppercase; }
+html[data-style="cool"] h2::before { content: "> "; opacity: .55; }
+html[data-style="cool"] .person { filter: grayscale(1) contrast(1.2); }
+html[data-style="cool"] .logo span { animation: blink 1.1s steps(2, start) infinite; }
+html[data-style="cool"] #tagline { opacity: .75; }
+html[data-style="cool"] button:hover:not(:disabled) { background: var(--ink); color: #fff; }
+html[data-style="cool"] .choice { text-transform: none; }
+
+/* 可愛型 */
+html[data-style="cute"] body {
+  background-image:
+    radial-gradient(rgba(255,141,161,.38) 3px, transparent 3.5px),
+    radial-gradient(rgba(255,228,92,.55) 3px, transparent 3.5px);
+  background-size: 38px 38px;
+  background-position: 0 0, 19px 19px;
+}
+html[data-style="cute"] .person { animation: bob 2.4s ease-in-out infinite; }
+html[data-style="cute"] h1 em {
+  text-decoration: underline wavy;
+  text-underline-offset: 9px;
+  text-decoration-thickness: 3px;
+}
+html[data-style="cute"] h2::after { content: " ♡"; }
+html[data-style="cute"] .logo::after { content: " ✿"; }
+html[data-style="cute"] .choice { text-align: center; }
+
+/* 混亂型 */
+html[data-style="chaos"] body {
+  background-image: repeating-linear-gradient(45deg, rgba(128,128,128,.12) 0 12px, transparent 12px 24px);
+  background-size: auto;
+}
+html[data-style="chaos"] h1 { text-shadow: 3px 3px 0 var(--pink); }
+html[data-style="chaos"] h1 em { display: inline-block; transform: rotate(-3deg); }
+html[data-style="chaos"] h2::after { content: " ‼"; }
+html[data-style="chaos"] .person { animation: wiggle .8s ease-in-out infinite; }
+html[data-style="chaos"] .logo span { display: inline-block; animation: wiggle 1.2s ease-in-out infinite; }
+html[data-style="chaos"] .personalizer { rotate: .8deg; }
+html[data-style="chaos"] .preview-card { rotate: -1deg; }
+html[data-style="chaos"] .bubble { rotate: 1deg; }
+html[data-style="chaos"] .actions button:nth-child(odd) { rotate: -1.5deg; }
+html[data-style="chaos"] .actions button:nth-child(even) { rotate: 1.5deg; }
+html[data-style="chaos"] .choice:nth-of-type(odd) { rotate: -.6deg; }
+html[data-style="chaos"] .choice:nth-of-type(even) { rotate: .6deg; }
+
+/* ================= 動畫 ================= */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+@keyframes blink {
+  to { opacity: .35; }
+}
+
+html[data-style] body,
+html[data-style] .panel,
+html[data-style] header { transition: background-color .3s, color .3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-style] *, html[data-style] *::before, html[data-style] *::after {
+    animation: none !important;
+  }
+}
