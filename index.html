@@ -20,6 +20,7 @@
       var d = JSON.parse(decodeURIComponent(m[1]));
       if (d.color) document.documentElement.setAttribute("data-theme", d.color);
       if (d.personality) document.documentElement.setAttribute("data-style", d.personality);
+      if (d.mood) document.documentElement.setAttribute("data-mood", d.mood);
     } catch (e) {}
   })();
 </script>
@@ -29,6 +30,7 @@
 <header>
   <div class="logo">🎨 COMIC <span>DEV</span> LAB</div>
   <div id="tagline">一場 GitHub Pages 冒險！</div>
+  <div class="name-badge" id="headerName" hidden></div>
 </header>
 
 <main>
@@ -36,6 +38,7 @@
   <section class="panel" id="intro">
     <span class="tag">新手任務 #001</span>
     <h1>讓你的網站<br>出現在 <em>網路上！</em></h1>
+    <p class="site-greeting" id="siteGreeting" hidden></p>
     <p>不用租伺服器，也不用付主機費！跟著漫畫角色，學會使用 GitHub Pages 發布自己的網頁。</p>
 
     <div class="hero-art">
@@ -95,7 +98,7 @@
 
         <div class="actions">
           <button class="primary" type="submit">✨ 預覽我的個人化設定</button>
-          <button type="button" id="applyTheme">🎨 套用個性風格到整個網站並記住我</button>
+          <button type="button" id="applyTheme">🎨 套用「個性 × 心情」主題到整個網站並記住我</button>
           <button type="button" id="clearTheme">🧹 清除記憶</button>
         </div>
         <p class="small" id="saveStatus" aria-live="polite"></p>
@@ -152,14 +155,14 @@
     <div id="finish" hidden>
       <div class="hero-art">
         <div class="person" aria-hidden="true">🏆</div>
-        <div class="bubble">恭喜！你已經掌握 GitHub Pages 的基本發布流程！</div>
+        <div class="bubble" id="finishText">恭喜！你已經掌握 GitHub Pages 的基本發布流程！</div>
       </div>
       <button class="primary" id="restart">🔄 再玩一次</button>
     </div>
   </section>
 </main>
 
-<footer>MADE WITH ♥ AND HTML · CSS · JAVASCRIPT</footer>
+<footer id="footerText">MADE WITH ♥ AND HTML · CSS · JAVASCRIPT</footer>
 
 <script src="algorithm.js"></script>
 <script src="main.js"></script>

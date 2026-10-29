@@ -2,6 +2,17 @@
    main.js 會在 <html> 設定 data-style="funny | cool | cute | chaos"。
    配色則由 themes.css 的 data-theme 負責，兩者可自由組合。 */
 
+/* ---------- 套用後帶入使用者名字的元素（所有風格共用） ---------- */
+.name-badge {
+  font-weight: 900;
+  padding: 4px 12px;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+.site-greeting { font-size: 1.3rem; font-weight: 900; }
+
 /* ---------- 搞笑型：原本的粗框漫畫風 ---------- */
 html[data-style="funny"] {
   --font: "Trebuchet MS", "Noto Sans TC", sans-serif;
@@ -104,6 +115,28 @@ html[data-style] .progress-wrap { border-width: var(--bw); border-radius: var(--
 html[data-style] .form-field input,
 html[data-style] .form-field select { border-width: var(--bw); border-radius: var(--r); }
 
+/* ================= 心情：同一個個性的「強度」變化 =================
+   main.js 會在 <html> 設定 data-mood="energetic | normal | sleepy"。
+   個性 × 心情 = 4 × 3 = 12 種主題。
+   這一區放在「專屬裝飾」之前，所以個性自己的角色動畫（可愛的浮動、混亂的搖晃）
+   會蓋過這裡的通用角色動畫，只剩速度被心情調整。 */
+
+/* 精神百倍：更鮮豔、更快、更彈 */
+html[data-mood="energetic"] { --speed: .5; }
+html[data-mood="energetic"] body { filter: saturate(1.3) contrast(1.03); }
+html[data-mood="energetic"] .person { animation: bounce calc(.9s * var(--speed, 1)) ease-in-out infinite; }
+html[data-mood="energetic"] .primary { animation: pulse 1s ease-in-out infinite; }
+html[data-mood="energetic"] .tag { font-size: 1.05em; }
+
+/* 靈魂已下班：褪色、慢吞吞、昏昏欲睡 */
+html[data-mood="sleepy"] { --speed: 2.5; }
+html[data-mood="sleepy"] body { filter: saturate(.55) brightness(.97); }
+html[data-mood="sleepy"] .person { animation: sway 4s ease-in-out infinite; opacity: .85; }
+html[data-mood="sleepy"] .logo::before { content: "💤 "; }
+html[data-mood="sleepy"] h1 { opacity: .9; }
+html[data-mood="sleepy"] .bubble { opacity: .92; }
+html[data-mood="sleepy"] button { transition-duration: .6s; }
+
 /* ================= 各風格的專屬裝飾 ================= */
 
 /* 冷酷型 */
@@ -116,7 +149,7 @@ html[data-style="cool"] body {
 html[data-style="cool"] h1 { letter-spacing: -.02em; text-transform: uppercase; }
 html[data-style="cool"] h2::before { content: "> "; opacity: .55; }
 html[data-style="cool"] .person { filter: grayscale(1) contrast(1.2); }
-html[data-style="cool"] .logo span { animation: blink 1.1s steps(2, start) infinite; }
+html[data-style="cool"] .logo span { animation: blink calc(1.1s * var(--speed, 1)) steps(2, start) infinite; }
 html[data-style="cool"] #tagline { opacity: .75; }
 html[data-style="cool"] button:hover:not(:disabled) { background: var(--ink); color: #fff; }
 html[data-style="cool"] .choice { text-transform: none; }
@@ -129,7 +162,7 @@ html[data-style="cute"] body {
   background-size: 38px 38px;
   background-position: 0 0, 19px 19px;
 }
-html[data-style="cute"] .person { animation: bob 2.4s ease-in-out infinite; }
+html[data-style="cute"] .person { animation: bob calc(2.4s * var(--speed, 1)) ease-in-out infinite; }
 html[data-style="cute"] h1 em {
   text-decoration: underline wavy;
   text-underline-offset: 9px;
@@ -147,8 +180,8 @@ html[data-style="chaos"] body {
 html[data-style="chaos"] h1 { text-shadow: 3px 3px 0 var(--pink); }
 html[data-style="chaos"] h1 em { display: inline-block; transform: rotate(-3deg); }
 html[data-style="chaos"] h2::after { content: " ‼"; }
-html[data-style="chaos"] .person { animation: wiggle .8s ease-in-out infinite; }
-html[data-style="chaos"] .logo span { display: inline-block; animation: wiggle 1.2s ease-in-out infinite; }
+html[data-style="chaos"] .person { animation: wiggle calc(.8s * var(--speed, 1)) ease-in-out infinite; }
+html[data-style="chaos"] .logo span { display: inline-block; animation: wiggle calc(1.2s * var(--speed, 1)) ease-in-out infinite; }
 html[data-style="chaos"] .personalizer { rotate: .8deg; }
 html[data-style="chaos"] .preview-card { rotate: -1deg; }
 html[data-style="chaos"] .bubble { rotate: 1deg; }
@@ -168,6 +201,17 @@ html[data-style="chaos"] .choice:nth-of-type(even) { rotate: .6deg; }
 }
 @keyframes blink {
   to { opacity: .35; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-14px) scale(1.06); }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg) translateY(2px); }
+  50% { transform: rotate(3deg) translateY(5px); }
+}
+@keyframes pulse {
+  50% { scale: 1.05; }
 }
 
 html[data-style] body,

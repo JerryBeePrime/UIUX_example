@@ -33,6 +33,7 @@ function updatePersonalPreview(event) {
 }
 
 // ===== 主題與 Cookie =====
+let siteName = ""; // 套用主題後才有值，例如「MR. 小明」
 const COOKIE_NAME = "comicDevProfile";
 const COOKIE_DAYS = 365;
 
@@ -65,11 +66,41 @@ const taglines = {
   chaos: "GITHUB PAGES!!! 爆炸教室!!!"
 };
 
+// 把使用者的稱謂與名字帶入整個網站（標題列、首頁問候、教學對話、結尾、頁尾）。
+// 不傳參數就代表清除，文字回到預設。
+const DEFAULT_FINISH = "恭喜！你已經掌握 GitHub Pages 的基本發布流程！";
+const DEFAULT_FOOTER = "MADE WITH ♥ AND HTML · CSS · JAVASCRIPT";
+
+function applyNameToSite(salutation, name) {
+  siteName = salutation !== undefined
+    ? `${salutation} ${name || "無名英雄"}`
+    : "";
+
+  const badge = $("headerName");
+  badge.textContent = siteName ? `👤 ${siteName}` : "";
+  badge.hidden = !siteName;
+
+  const greeting = $("siteGreeting");
+  greeting.textContent = siteName ? `歡迎回來，${siteName}！你的專屬冒險開始囉 🎉` : "";
+  greeting.hidden = !siteName;
+
+  $("finishText").textContent = siteName ? `恭喜 ${siteName}！${DEFAULT_FINISH.slice(3)}` : DEFAULT_FINISH;
+  $("footerText").textContent = siteName ? `${DEFAULT_FOOTER} · FOR ${siteName}` : DEFAULT_FOOTER;
+  document.title = siteName ? `${siteName}｜COMIC DEV LAB` : "COMIC DEV LAB｜GitHub Pages 漫畫教室";
+
+  // 教學頁正在顯示時，也立刻更新對話框
+  if (typeof showLesson === "function" && !$("lesson").hidden) showLesson();
+}
+
+// 心情會替標題列加上小符號
+const moodSuffix = { energetic: " ⚡", normal: "", sleepy: " 💤" };
+
 // 套用到整個網站：
 //   配色 → <html data-theme>（themes.css）
-//   風格 → <html data-style>（skins.css）
+//   個性 → <html data-style>（skins.css）
+//   心情 → <html data-mood>（skins.css）　個性 × 心情 = 12 種主題
 // 不傳參數就代表回到預設樣式。
-function applySiteTheme(colorKey, personalityKey) {
+function applySiteTheme(colorKey, personalityKey, moodKey) {
   const root = document.documentElement;
 
   if (profileThemes[colorKey]) root.setAttribute("data-theme", colorKey);
@@ -78,8 +109,14 @@ function applySiteTheme(colorKey, personalityKey) {
   if (personalityData[personalityKey]) root.setAttribute("data-style", personalityKey);
   else root.removeAttribute("data-style");
 
+  if (moodData[moodKey]) root.setAttribute("data-mood", moodKey);
+  else root.removeAttribute("data-mood");
+
   const tagline = $("tagline");
-  if (tagline) tagline.textContent = taglines[personalityKey] || DEFAULT_TAGLINE;
+  if (tagline) {
+    tagline.textContent =
+      (taglines[personalityKey] || DEFAULT_TAGLINE) + (moodSuffix[moodKey] || "");
+  }
 }
 
 function setStatus(text) {
@@ -99,7 +136,8 @@ function restoreFromCookie() {
     const radio = profileForm.querySelector(`input[name="personality"][value="${saved.personality}"]`);
     if (radio) radio.checked = true;
   }
-  applySiteTheme(saved.color, saved.personality);
+  applySiteTheme(saved.color, saved.personality, saved.mood);
+  applyNameToSite(saved.salutation || "", saved.name);
   return true;
 }
 
@@ -121,16 +159,18 @@ if (profileForm) {
       color: $("favoriteColor").value,
       personality: profileForm.querySelector('input[name="personality"]:checked').value
     };
-    applySiteTheme(data.color, data.personality);
+    applySiteTheme(data.color, data.personality, data.mood);
+    applyNameToSite(data.salutation, data.name);
     saveCookie(data);
     updatePersonalPreview();
-    setStatus(`✅ 已套用「${personalityData[data.personality].name}」風格 × ${profileThemes[data.color].name}配色，並記住你的設定（保存 ${COOKIE_DAYS} 天）。`);
+    setStatus(`✅ 已套用「${personalityData[data.personality].name} × ${moodData[data.mood].name}」主題（${profileThemes[data.color].name}配色），並記住你的設定（保存 ${COOKIE_DAYS} 天）。`);
   });
 
   // 按鈕：清除記憶並回到預設主題
   $("clearTheme").addEventListener("click", () => {
     clearCookie();
     applySiteTheme();
+    applyNameToSite();
     setStatus("🧹 已清除記憶，網站回到預設樣式。");
   });
 
@@ -208,7 +248,7 @@ function showLesson() {
   $("stepCount").textContent = `STEP ${current + 1} / ${lessons.length}`;
   $("lessonTitle").textContent = item.title;
   $("avatar").textContent = item.avatar;
-  $("speech").textContent = item.speech;
+  $("speech").textContent = siteName ? `${siteName}，${item.speech}` : item.speech;
   $("lessonContent").innerHTML = item.content;
   $("progress").style.width = `${((current + 1) / lessons.length) * 100}%`;
   $("progressText").textContent = `教學進度：${current + 1} / ${lessons.length}`;
