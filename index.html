@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Chocolate+Classical+Sans&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@500;900&display=swap">
 <link rel="stylesheet" href="themes.css">
 <link rel="stylesheet" href="skins.css">
+<link rel="stylesheet" href="compare.css">
 <script>
   // 在畫面繪製前先套用已保存的配色與風格，避免閃一下預設樣式
   (function () {
@@ -117,7 +118,53 @@
     </section>
 
     <p><strong>你的任務：</strong>完成四個步驟，解鎖網站發布技能。</p>
-    <button class="primary" id="start">🚀 開始冒險！</button>
+    <div class="actions" style="margin-top:0">
+      <button class="primary" id="start">🚀 開始冒險！</button>
+      <button type="button" id="openCompare">🆚 Bootstrap 比一比</button>
+    </div>
+  </section>
+
+  <!-- Bootstrap 比一比：同一份 HTML，左邊不用 Bootstrap、右邊用 Bootstrap -->
+  <section class="panel" id="compare" hidden>
+    <span class="tag">BONUS MISSION</span>
+    <h2>🆚 Bootstrap 比一比</h2>
+    <p>兩邊是<strong>完全相同的 HTML</strong>，唯一差別是右邊多載入了一行 Bootstrap 的 CSS。</p>
+
+    <div class="hero-art">
+      <div class="person" aria-hidden="true">🧑‍🏫</div>
+      <div class="bubble">「不用自己寫一堆 CSS，加一行就有現成的按鈕、卡片、表格和版面格線！」</div>
+    </div>
+
+    <div class="actions" style="margin-top:0">
+      <button type="button" id="cmpLayout">↕ 切換為上下排列</button>
+    </div>
+
+    <div class="cmp-grid" id="cmpGrid">
+      <div class="cmp-frame">
+        <p class="cmp-label no">❌ 沒有 Bootstrap（瀏覽器預設樣式）</p>
+        <iframe id="frameWithout" title="沒有 Bootstrap 的範例"></iframe>
+      </div>
+      <div class="cmp-frame">
+        <p class="cmp-label yes">✅ 有 Bootstrap 5.3.8</p>
+        <iframe id="frameWith" title="有 Bootstrap 的範例"></iframe>
+      </div>
+    </div>
+
+    <p><strong>差別只在這一行（放在 &lt;head&gt; 裡）：</strong></p>
+    <div class="code">&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</div>
+
+    <p><strong>Bootstrap 幫你做了什麼？</strong></p>
+    <ul class="cmp-notes">
+      <li><b>重設與排版：</b>統一字體、行距、邊距。</li>
+      <li><b>元件：</b><code>.btn</code>、<code>.card</code>、<code>.alert</code>、<code>.navbar</code> 加上 class 就有樣式。</li>
+      <li><b>表單與表格：</b><code>.form-control</code>、<code>.table-striped</code> 讓欄位與表格立刻整齊。</li>
+      <li><b>格線系統：</b><code>.row</code> + <code>.col-4</code> 把內容分成三等分欄位。</li>
+    </ul>
+    <p class="small">💡 兩個範例放在 iframe 裡，因為 Bootstrap 的 CSS 是全域的，直接放進本頁會蓋掉漫畫主題。需要網路才能載入 Bootstrap。</p>
+
+    <div class="actions">
+      <button type="button" id="closeCompare">⬅ 回到首頁</button>
+    </div>
   </section>
 
   <!-- 教學區 -->
@@ -166,5 +213,6 @@
 
 <script src="algorithm.js"></script>
 <script src="main.js"></script>
+<script src="compare.js"></script>
 </body>
 </html>

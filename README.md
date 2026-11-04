@@ -7,6 +7,8 @@
 - `skins.css`：整站風格（依「個性」，`<html data-style>`：字體、邊框、圓角、陰影、背景、動畫）。
 - `algorithm.js`：依照精神狀態與個性產生分析資料。
 - `main.js`：讀取表單、更新預覽，以及控制教學流程。
+- `compare.css`：「Bootstrap 比一比」頁面樣式（沿用主題變數，會跟著配色／個性／心情變化）。
+- `compare.js`：用兩個 iframe 顯示同一份 HTML（不載入／載入 Bootstrap 5.3.8），需在 `main.js` 之後載入。
 - `README.md`：專案說明與部署方式。
 
 ## 本機預覽
